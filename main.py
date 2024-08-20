@@ -2,42 +2,91 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import tkinter as tk
 
-run = True
+#-----------------------------------------------------Optional Modules--------------------------------------------------------#
+import time
+import random
 
+#-----------------------------------------------------Global Variables--------------------------------------------------------#
+run = True
+auth_time = random.randint(0,1111)
 original_df = pd.read_csv('data/games-features.csv')
 
 updated_df = original_df.loc[:,['index', 'QueryID', 'ResponseID', 'QueryName', 'ResponseName', 'ReleaseDate', 'ControllerSupport', 'PlatformWindows', 'PlatformLinux', 'PlatformMac', ]]
 updated_df.to_csv('data/games-simple.csv')
 
+#---------------------------------------------------Defining Functions--------------------------------------------------------#
+
 def showOG():
     print(original_df)
 
-def showUpdatedDf():
+def showUpdated():
     print(updated_df)
 
 def macGames():
-    print("HANG IN THERE, WE'LL BE THERE SOON")
+    mac_updated_df = updated_df.loc[:, ['index', 'QueryName', 'ReleaseDate', 'PlatformMac']]
+    mac_df = mac_updated_df[mac_updated_df['PlatformMac']==True]
+    print(mac_df)
+
+def windowsGames():
+    win_updated_df = updated_df.loc[:, ['index', 'QueryName', 'ReleaseDate', 'PlatformWindows']]
+    win_df = win_updated_df[win_updated_df['PlatformWindows']==True]
+    print(win_df)
+
+def linuxGames():
+    linux_updated_df = updated_df.loc[:, ['index', 'QueryName', 'ReleaseDate', 'PlatformLinux']]
+    linux_df = linux_updated_df[linux_updated_df['PlatformLinux']==True]
+    print(linux_df)
+
+def controllerGames():
+    controller_games_support_df = updated_df.loc[:,['index', 'ResponseName', 'ReleaseDate', 'ControllerSupport', 'PlatformWindows', 'PlatformLinux', 'PlatformMac']]
+    controller_games_df =controller_games_support_df[controller_games_support_df['ControllerSupport']==True]
+    print()
+
+def userAuthentication():
+    username = input("ENTER YOUR USERNAME: ")
+    password = input("ENTER YOUR PASSWORD: ")
+    time.sleep(auth_time/1000)
+    print(f"Welcome {username}.\nThis is the most popular video games on different platforms. Below are the options of what you can do. Please note that these are only Steam Games and are may not include some newer titles.")
 
 def options():
-    print("""   [1] -> View the original dataframe
-        [2] -> View the dataframe with only the necessary information
-        [3] -> View the most popular macOS games
-        [4] -> View the most popular Windows games
-        [5] -> View the most popular Linux games
-        [6] -> View the games with controller support""")
+    print("""[1] -> View the original dataframe
+[2] -> View the dataframe with only the necessary information
+[3] -> View the most popular macOS games
+[4] -> View the most popular Windows games
+[5] -> View the most popular Linux games
+[6] -> View the games with controller support
+[7] -> Compare the platform's number of games along with the number of games that support controller
+[8] -> Exit the program""")
     print(" ")
 
-while run:
+
+def mainloop():
     try:
+        userAuthentication()
         options()
         selection = int(input("PLEASE SELECT AN OPTION: "))
 
         if selection == 1:
             showOG()
         elif selection == 2:
-            showUpdatedDf()
+            showUpdated()
         elif selection == 3:
             macGames()
+        elif selection == 4:
+            windowsGames()
+        elif selection == 5:
+            linuxGames()
+        elif selection == 6:
+            controllerGames()
+        elif selection == 7:
+            quit()
+        else:
+            print("IT CAN'T BE THAT DIFFICULT TO ENTER A NUMBER BETWEEN 1 AND 6")
 
     except ValueError:
-        print("BRO ARE YOU STUPID HOW HARD IS IT TO ENTER A NUMBER?!?!?!?!?")
+        print("IT'S OKAY, JUST ENTER A NUMBER")
+
+#================================================Define the Main Program==================================================#
+
+while run:
+    mainloop()
