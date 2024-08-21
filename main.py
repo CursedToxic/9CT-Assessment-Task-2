@@ -14,6 +14,8 @@ original_df = pd.read_csv('data/games-features.csv')
 updated_df = original_df.loc[:,['index', 'QueryID', 'ResponseID', 'QueryName', 'ResponseName', 'ReleaseDate', 'ControllerSupport', 'PlatformWindows', 'PlatformLinux', 'PlatformMac', ]]
 updated_df.to_csv('data/games-simple.csv')
 
+Platform = ['PlatformMac', 'PlatformWindows', 'PlatformLinux', 'ControllerSupport']
+No_Games = [4562,13355,3057,3658]
 #---------------------------------------------------Defining Functions--------------------------------------------------------#
 
 def showOG():
@@ -38,15 +40,21 @@ def linuxGames():
     print(linux_df)
 
 def controllerGames():
-    controller_games_support_df = updated_df.loc[:,['index', 'ResponseName', 'ReleaseDate', 'ControllerSupport', 'PlatformWindows', 'PlatformLinux', 'PlatformMac']]
-    controller_games_df =controller_games_support_df[controller_games_support_df['ControllerSupport']==True]
-    print()
+    controller_games_support_df = updated_df.loc[:, ['index', 'ResponseName', 'ReleaseDate', 'ControllerSupport', 'PlatformWindows', 'PlatformLinux', 'PlatformMac']]
+    controller_games_df = controller_games_support_df[controller_games_support_df['ControllerSupport']==True]
+    print(controller_games_df)
 
 def userAuthentication():
-    username = input("ENTER YOUR USERNAME: ")
-    password = input("ENTER YOUR PASSWORD: ")
-    time.sleep(auth_time/1000)
-    print(f"Welcome {username}.\nThis is the most popular video games on different platforms. Below are the options of what you can do. Please note that these are only Steam Games and are may not include some newer titles.")
+    print(f"Welcome User.\nThis is the most popular video games on different platforms. Below are the options of what you can do. Please note that these are only Steam Games and are may not include some newer titles.")
+
+def platformComparison():
+    Platform = ['PlatformMac', 'PlatformWindows', 'PlatformLinux', 'ControllerSupport']
+    No_Games = [4562,13355,3057,3658]
+
+    plt.figure(figsize=(9, 3))
+    plt.bar(Platform, No_Games)
+    plt.suptitle('Platform Comparison')
+    plt.show()
 
 def options():
     print("""[1] -> View the original dataframe
@@ -79,6 +87,8 @@ def mainloop():
         elif selection == 6:
             controllerGames()
         elif selection == 7:
+            platformComparison()
+        elif selection == 8:
             quit()
         else:
             print("IT CAN'T BE THAT DIFFICULT TO ENTER A NUMBER BETWEEN 1 AND 6")
