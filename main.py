@@ -51,7 +51,6 @@ def platformComparison():
     Platform = ['PlatformMac', 'PlatformWindows', 'PlatformLinux', 'ControllerSupport']
     No_Games = [4562,13355,3057,3658]
 
-    plt.figure(figsize=(9, 3))
     plt.bar(Platform, No_Games)
     plt.suptitle('Platform Comparison')
     plt.show()
